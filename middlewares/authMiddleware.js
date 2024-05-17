@@ -1,9 +1,12 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
 
-    if (!token) { res.status(401).send('Invalid token.'); return; }
+    if (!token) {
+        res.status(401).send("Invalid token.");
+        return;
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -12,8 +15,8 @@ const authMiddleware = async (req, res, next) => {
         next();
     } catch (err) {
         console.log(err);
-        res.status(500).send('Invalid token!');
+        res.status(500).send("Invalid token!");
     }
-}
+};
 
 module.exports = authMiddleware;

@@ -12,7 +12,7 @@ const register = async (req, res) => {
             return;
         }
 
-        const hashedPassword = bcrypt.hash(password, 13);
+        const hashedPassword = await bcrypt.hash(password, 13);
         const user = User.createUser(username, hashedPassword);
 
         res.status(200).send("User registered succesfully!");
@@ -26,13 +26,13 @@ const login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        const user = User.getUserByUsername(username);
+        const user = await User.getUserByUsername(username);
         if (!user) {
             res.status(401).send("Wrong username!");
             return;
         }
 
-        const isValid = bcrypt.compare(password, user.password);
+        const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
             res.status(401).send("Wrong password!");
             return;
